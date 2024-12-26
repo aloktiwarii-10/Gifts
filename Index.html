@@ -5,28 +5,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sorry Message</title>
     <style>
-        /* Inline CSS for simplicity */
+        /* Styling the page */
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            background-color: #f9f9f9;
+            background: linear-gradient(135deg, #FF69B4, #ff85c3);
             margin: 0;
             padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
         }
 
         .message-container {
-            margin-top: 20%;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-            width: 80%;
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
             max-width: 400px;
-            margin: 20px auto;
+            text-align: center;
+            animation: fadeIn 1s ease-in-out;
         }
 
         h1 {
             color: #FF69B4;
+            font-size: 2em;
+            animation: textGlow 1.5s infinite alternate;
+        }
+
+        p {
+            color: #333;
+            font-size: 1.2em;
+            line-height: 1.5;
         }
 
         button {
@@ -38,15 +50,57 @@
             border-radius: 5px;
             cursor: pointer;
             margin-top: 20px;
+            transition: transform 0.3s, background-color 0.3s;
         }
 
         button:hover {
-            background-color: #ff85c3;
+            background-color: #ff4081;
+            transform: scale(1.1);
+        }
+
+        #surprise {
+            display: none;
+            margin-top: 20px;
+            animation: popIn 0.5s ease-out;
         }
 
         #surprise img {
-            margin-top: 20px;
             border-radius: 10px;
+            width: 100%;
+            max-width: 200px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes popIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes textGlow {
+            from {
+                text-shadow: 0 0 10px #FF69B4, 0 0 20px #ff85c3, 0 0 30px #FF69B4;
+            }
+            to {
+                text-shadow: 0 0 20px #ff85c3, 0 0 40px #FF69B4, 0 0 60px #ff4081;
+            }
         }
     </style>
 </head>
@@ -55,7 +109,7 @@
         <h1>I'm Sorry</h1>
         <p>Hey, I just want to say I'm truly sorry for what happened. You're an amazing person and the best friend I could ask for. Let's make things right!</p>
         <button id="surpriseButton">Click for a surprise ❤️</button>
-        <div id="surprise" style="display: none;">
+        <div id="surprise">
             <img src="https://via.placeholder.com/150/FF69B4/FFFFFF?text=You're+Awesome!" alt="Surprise">
             <p>You mean the world to me! 🥰</p>
         </div>
@@ -65,7 +119,42 @@
         document.getElementById('surpriseButton').addEventListener('click', function () {
             const surpriseDiv = document.getElementById("surprise");
             surpriseDiv.style.display = "block";
+
+            // Add confetti effect
+            createConfetti();
         });
+
+        // Confetti effect
+        function createConfetti() {
+            const confettiContainer = document.createElement('div');
+            confettiContainer.style.position = 'absolute';
+            confettiContainer.style.top = 0;
+            confettiContainer.style.left = 0;
+            confettiContainer.style.width = '100%';
+            confettiContainer.style.height = '100%';
+            confettiContainer.style.pointerEvents = 'none';
+            confettiContainer.setAttribute('id', 'confetti');
+            document.body.appendChild(confettiContainer);
+
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.style.position = 'absolute';
+                confetti.style.width = '10px';
+                confetti.style.height = '10px';
+                confetti.style.backgroundColor = getRandomColor();
+                confetti.style.borderRadius = '50%';
+                confetti.style.top = `${Math.random() * 100}%`;
+                confetti.style.left = `${Math.random() * 100}%`;
+                confetti.style.animation = `fall ${Math.random() * 2 + 3}s linear infinite`;
+                confetti.style.opacity = '0.8';
+                confettiContainer.appendChild(confetti);
+            }
+        }
+
+        function getRandomColor() {
+            const colors = ['#FF69B4', '#ff85c3', '#FFC0CB', '#FFB6C1', '#FFD1DC'];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
     </script>
 </body>
 </html>
